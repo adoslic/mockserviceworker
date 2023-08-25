@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -6,21 +7,9 @@ import {Observable} from "rxjs";
 })
 export class MockWorkerService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getAllPlayers(): any[] {
-    const player1 = {
-      id: 1,
-      name: 'Cristiano Ronaldo',
-      height: 190,
-      weight: 85
-    }
-    const player2 = {
-      id: 2,
-      name: 'Lionel Messi',
-      height: 165,
-      weight: 65
-    }
-    return [player1, player2];
+  getAllPlayers(): Observable<any> {
+    return this.http.get("/players");
   }
 }

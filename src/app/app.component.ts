@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {MockWorkerService} from "./mock-worker.service";
+import {worker} from "../mocks/browser";
 
 @Component({
   selector: 'app-root',
@@ -7,13 +8,18 @@ import {MockWorkerService} from "./mock-worker.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'mockserviceworker';
   displayedColumns: string[] = ['id', 'name', 'height', 'weight'];
   dataSource: any[] = [];
 
-
   constructor(private mockWorkerService: MockWorkerService) {
-    this.dataSource = this.mockWorkerService.getAllPlayers();
+
+    worker.start().then(() => console.log("worker started!"));
+
+    this.mockWorkerService.getAllPlayers()
+      .subscribe(players => {
+        this.dataSource = players;
+      });
+
   }
 
 }
